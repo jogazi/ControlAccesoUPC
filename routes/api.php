@@ -12,11 +12,25 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => [],'prefix' => 'v1'], function () {
-    Route::post('auth/login', 'TokensController@login');
+Route::group(['middleware' => ['jwt.auth'], 'prefix' => 'v1'], function () {
+
+    Route::get('/projects/user', 'ProjectsController@getCurrentUserProjects');
+    Route::post('/projects', 'ProjectsController@createProject');
+    Route::delete('/projects/{id}', 'ProjectsController@deleteProject');
+});
+
+Route::group(['middleware' => [], 'prefix' => 'v1'], function () {
+
+    Route::get('/projects', 'ProjectsController@getAll');
+//    Route::get('/projects/{id}', 'ProjectsController@getProjectById');
+    Route::get('/projects/{project}', 'ProjectsController@getProjectBySlug');
+
+    // Auth
+    Route::post('/auth/login', 'TokensController@login');
+    Route::post('/auth/refresh', 'TokensController@refreshToken');
+    Route::get('/auth/expire', 'TokensController@expireToken');
 });
