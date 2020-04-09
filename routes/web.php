@@ -19,10 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Route::get('/comparacion', 'HomeController@comparacion')->name('comparacion');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/upfile', 'HomeController@store')->name('store');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/comparison-analysis', 'HomeController@analysis')->name('analysis');

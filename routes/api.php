@@ -17,6 +17,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => [],'prefix' => 'v1'], function () {
-    Route::post('auth/login', 'TokensController@login');
-});
