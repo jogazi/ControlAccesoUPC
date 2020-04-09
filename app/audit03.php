@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class audit03 extends Model
 {
+    protected $table = 'audit03';
+    protected $primaryKey = 'idmod';
+
+    public $timestamps = false;
+    
     /**
      * The attributes that are mass assignable.
      *
