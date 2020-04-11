@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\audit23;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class Audit23Controller extends Controller
     public function index()
     {
         //
+    $audit23 = audit23::all();
+    return view('audit23.index', ['archivos'=>$audit23]);
     }
 
     /**
@@ -156,6 +159,7 @@ class Audit23Controller extends Controller
         $audit23->id = $user->id;
         $audit23->save();
 
+        return view('comparacion');
     }
 
     /**

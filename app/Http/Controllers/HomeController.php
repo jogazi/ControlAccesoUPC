@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\audit23;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
