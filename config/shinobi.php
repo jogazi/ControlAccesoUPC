@@ -69,11 +69,11 @@ return [
         | bundled migrations and update the references here for use.
         */
 
-        'roles' => 'audit06',
-        'permissions' => 'audit05',
-        'role_user' => 'audit04',
-        'permission_role' => 'audit03',
-        'permission_user' => 'audit02',
+        'roles' => 'roles',
+        'permissions' => 'permissions',
+        'role_user' => 'role_user',
+        'permission_role' => 'permission_role',
+        'permission_user' => 'permission_user',
 
     ],
 

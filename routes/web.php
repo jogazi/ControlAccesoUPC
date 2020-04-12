@@ -32,35 +32,35 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/upfile', 'Audit23Controller@store')->name('store');
 
     //roles
-    Route::post('roles/store', 'Audit06Controller@store')->name('audit06.store')
-           ->middleware('can:audit06.create');
+    Route::post('roles/store', 'Audit06Controller@store')->name('roles.store')
+           ->middleware('can:roles.create');
 
-    Route::get('roles', 'Audit06Controller@index')->name('audit06.index')
-           ->middleware('can:audit06.index');
+    Route::get('roles', 'Audit06Controller@index')->name('roles.index')
+           ->middleware('can:roles.index');
 
-    Route::post('roles/create', 'Audit06Controller@create')->name('audit06.create')
-           ->middleware('can:audit06.create');
+    Route::post('roles/create', 'Audit06Controller@create')->name('roles.create')
+           ->middleware('can:roles.create');
            
-    Route::post('roles/update', 'Audit06Controller@update')->name('audit06.update')
-           ->middleware('can:audit06.edit');
+    Route::post('roles/update', 'Audit06Controller@update')->name('roles.update')
+           ->middleware('can:roles.edit');
 
-    Route::post('roles/show', 'Audit06Controller@show')->name('audit06.show')
-           ->middleware('can:audit06.show');
+    Route::post('roles/show', 'Audit06Controller@show')->name('roles.show')
+           ->middleware('can:roles.show');
            
-    Route::post('roles/delete', 'Audit06Controller@destroy')->name('audit06.destroy')
-           ->middleware('can:audit06.destroy');
+    Route::post('roles/delete', 'Audit06Controller@destroy')->name('roles.destroy')
+           ->middleware('can:roles.destroy');
 
-    Route::post('roles/edit', 'Audit06Controller@edit')->name('audit06.edit')
-           ->middleware('can:audit06.edit');
+    Route::post('roles/edit', 'Audit06Controller@edit')->name('roles.edit')
+           ->middleware('can:roles.edit');
 
     //audsys
-    Route::get('roles', 'Audit07Controller@index')->name('audit07.index')
+    Route::get('audit', 'Audit07Controller@index')->name('audit07.index')
            ->middleware('can:audit07.index');
 
-    Route::post('roles/show', 'Audit07Controller@show')->name('audit07.show')
+    Route::post('audit/show', 'Audit07Controller@show')->name('audit07.show')
            ->middleware('can:audit07.show');
            
-    Route::post('roles/delete', 'Audit07Controller@destroy')->name('audit07.destroy')
+    Route::post('audit/delete', 'Audit07Controller@destroy')->name('audit07.destroy')
            ->middleware('can:audit07.destroy');
 
     //actors

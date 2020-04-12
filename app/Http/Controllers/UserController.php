@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         //
     $permission = User::all();
-    return view('user.index', ['archivos'=>$permission]);
+    return view('users.index', ['archivos'=>$permission]);
     }
 
     /**

@@ -16,6 +16,7 @@ class Audit23Controller extends Controller
     public function index()
     {
         //
+        $roles = auth()->user()->roles;
     $audit23 = audit23::all();
     return view('audit23.index', ['archivos'=>$audit23]);
     }
