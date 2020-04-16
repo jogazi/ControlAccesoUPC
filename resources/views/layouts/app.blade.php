@@ -11,9 +11,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('public/js/app.js') }}" defer></script>
+    <script src="{{ asset('public/js/alert3.js') }}" ></script>
 
     <!-- Fonts -->
-    <link href="public/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('public/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
@@ -24,6 +25,13 @@
     
 </head>
 <body>
+                <style>
+
+.imagenlogo {
+  height: 90%;
+   width: 90%;
+}
+</style>
     <div id="app">
       <!-- Page Wrapper -->
       <div id="wrapper">
@@ -33,10 +41,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
          @guest
            <!-- Sidebar - Brand -->
-          
+
            
                <div class="text-center">
-                 <img src="{{ asset('/public/Logo/logo2.jpg') }}" class="img-fluid" alt="Responsive image">
+                 <br>
+                 <img src="{{ asset('/public/Logo/LOGO2.png') }}" class="img-fluid imagenlogo" alt="Responsive image">
              
               </div>
           
@@ -122,7 +131,8 @@
           @else
           <!-- Sidebar - Brand -->
           <div class="text-center">
-                 <img src="{{ asset('/public/Logo/logo2.jpg') }}" class="img-fluid" alt="Responsive image">
+            <br>
+                 <img src="{{ asset('/public/Logo/LOGO2.png') }}" class="img-fluid imagenlogo" alt="Responsive image">
              
               </div>
           <!-- Divider -->
@@ -216,16 +226,17 @@
             Audit
           </div>
           <!-- Nav Item - Tables -->
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('comparacion') }}">
-            <i class="fas fa-file-csv"></i>
-              <span>File comparison</span></a>
-          </li>
           <!-- Nav Item - AuditSys -->
           <li class="nav-item">
-                @can('audit07.index')
-                <a class="collapse-item" href="{{ route('audit07.index') }}"><i class="fas fa-user-circle"></i> Audit system</a>
-                @endcan
+            @can('audit07.index')
+              <a class="nav-link" href="{{ route('audit07.index') }}"><i class="fas fa-clipboard-check"></i> Audit system</a>
+            @endcan
+          </li>
+          <!-- Nav Item - comparisons record -->
+          <li class="nav-item">
+            @can('audit07.index')
+              <a class="nav-link" href="{{ route('audit23.index') }}"><i class="fas fa-history"></i> Comparisons Record</a>
+            @endcan
           </li>
           @endguest
         </ul>
@@ -236,7 +247,7 @@
           <!-- Main Content -->
           <div id="content">
             <!-- Topbar -->
-            <nav class="navbar navbar-expand-md navbar-light bg-white topbar mb-4 static-top shadow">
+            <nav class="navbar navbar-expand-md navbar-light bg-gradient-primary topbar mb-4 static-top shadow">
                 <div class="container">
                     <a class="navbar-brand" href="{{ url('/') }}">
                     
@@ -298,13 +309,7 @@
 
               <!-- Begin Page Content -->
               <div class="container-fluid">
-              <!-- Page Heading -->
-              <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-              </div>
-            
-              <!-- End Page Heading -->
+                
               </div>
               <main class="py-4">
                 @yield('content')
@@ -329,7 +334,21 @@
        <!-- End of Page Wrapper -->
 </div>
     <!-- Custom scripts for all pages-->
-  <script src="public/js/sb-admin-2.min.js"></script>
-
+  <script src="{{ asset('public/js/sb-admin-2.min.js') }}"></script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5c68f0daf324050cfe339797/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+@include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 </body>
 </html>

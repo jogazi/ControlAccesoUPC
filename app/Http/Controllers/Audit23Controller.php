@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\audit23;
+use App\audit24;
+use App\audit25;
+use Alert;
+
 use Illuminate\Http\Request;
 
 class Audit23Controller extends Controller
@@ -15,10 +19,8 @@ class Audit23Controller extends Controller
      */
     public function index()
     {
-        //
-        $roles = auth()->user()->roles;
-    $audit23 = audit23::all();
-    return view('audit23.index', ['archivos'=>$audit23]);
+        $audit23 = audit23::paginate(4);
+        return view('audit23.index', compact('audit23'));
     }
 
     /**
@@ -148,6 +150,50 @@ class Audit23Controller extends Controller
         $size2=round( $size2, 1, PHP_ROUND_HALF_EVEN);
         $size2=$size2." ".$medida2;
 
+        // diffsize and detdiffsize
+        if ($archivo1["size"]!=$archivo2["size"]) {
+            $diffsize="Y";
+            $detdiffsize="Files are not the same size";
+        }else {
+            $diffsize="N";
+            $detdiffsize="Files are the same size";
+        }
+        $diffinfo="N";
+        $detdiffinfo="this test";
+
+
+        $codigo1="1";
+        $nombre1="1";
+        $nofactura1="1";
+        $valor1="1";
+        $concepto1="1";
+
+        $codigo2="1";
+        $nombre2="1";
+        $nofactura2="1";
+        $valor2="1";
+        $concepto2="1";
+
+        // creating new records
+        $audit24 = new audit24;
+        $audit24->codigo = $codigo1;
+        $audit24->nombre = $nombre1;
+        $audit24->nofactura = $nofactura1;
+        $audit24->valor = $valor1;
+        $audit24->concepto = $concepto1;
+        $audit24->save();
+
+        // creating new records
+        $audit25 = new audit25;
+        $audit25->codigo = $codigo2;
+        $audit25->nombre = $nombre2;
+        $audit25->nofactura = $nofactura2;
+        $audit25->valor = $valor2;
+        $audit25->concepto = $concepto2;
+        $audit25->save();
+
+        $idaudit24 = audit24::all()->last();
+        $idaudit25 = audit25::all()->last();
 
         // creating new records
         $audit23 = new audit23;
@@ -157,10 +203,18 @@ class Audit23Controller extends Controller
         $audit23->route2 = $route2;
         $audit23->extension2 = $extension2;
         $audit23->size2 = $size2;
+        $audit23->diffsize = $diffsize;
+        $audit23->detdiffsize = $detdiffsize;
+        $audit23->diffinfo = $diffinfo;
+        $audit23->detdiffinfo = $detdiffinfo;
+        $audit23->idaudit24 = $idaudit24->idaudit24;
+        $audit23->idaudit25 = $idaudit25->idaudit25;
         $audit23->id = $user->id;
         $audit23->save();
 
-        return view('comparacion');
+        
+        $audit23 = audit23::all()->last();
+        return view('audit23.show', compact('audit23'));
     }
 
     /**
@@ -171,7 +225,7 @@ class Audit23Controller extends Controller
      */
     public function show(audit23 $audit23)
     {
-        //
+        return view('audit23.show', compact('audit23'));
     }
 
     /**
@@ -205,7 +259,19 @@ class Audit23Controller extends Controller
      */
     public function destroy(audit23 $audit23)
     {
-        //
+        //var_dump($audit23);
+        $audit23->delete();
+        Alert::success('Success', 'Files Compared Successfully Deleted');
+        return back();
+    }
+
+    
+    function imprimir() {
+
+        $audit23 = audit23::all();
+        $pdf = \PDF::loadView('audit23.pdf', compact('audit23'));
+        return $pdf->download('files-scanned.pdf');
+
     }
 }
 

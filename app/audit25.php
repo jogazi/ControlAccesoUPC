@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class audit23 extends Model
+class audit25 extends Model
 {
-    protected $table = 'audit23';
-    protected $primaryKey = 'idfile';
+    protected $table = 'audit25';
+    protected $primaryKey = 'idaudit25';
 
     public $timestamps = false;
 
@@ -17,6 +17,6 @@ class audit23 extends Model
      * @var array
      */
     protected $fillable = [
-        'route1','extension1','size1','route2','extension2','size2','diffsize','detdiffsize','diffinfo','detdiffinfo','id',
+        'codigo','nombre','nofactura','valor','concepto',
     ];
 }

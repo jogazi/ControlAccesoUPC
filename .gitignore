@@ -11,6 +11,8 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/public/archivos/*
+/public/Logo/*
 =======
 /vendor/
 node_modules/

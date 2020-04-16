@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Comparacion de archivos</div>
+                <div class="card-header">File comparison</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -18,7 +18,7 @@
                         <input  type="hidden" name="hidden" value="{{ Auth::user()->email }}" />
                         <table class="table">
                         <tr>
-                            <th>Archivo 1</th>
+                            <th>File 1</th>
                             <td>
                                 <input required type="file" id="archivoInput" class="form-control-file" onchange="return validarExt()" name="archivo1" />
                             </td>
@@ -29,7 +29,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Archivo 2</th>
+                            <th>File 2</th>
                             <td>
                                 <input required type="file" id="archivoInput2" class="form-control-file" onchange="return validarExt2()" name="archivo2" />
                             </td>
@@ -40,7 +40,7 @@
                             </td>
                         </tr>
                         </table>
-                        <button>Comparar Archivos</button>
+                        <button>Compare Files</button>
 	                </form>
                 </div>
             </div>
@@ -55,7 +55,7 @@ function validarExt()
     var archivoRuta = archivoInput.value;
     var extPermitidas = /(.txt|.csv)$/i;
     if(!extPermitidas.exec(archivoRuta)){
-        alert('Asegurese de haber seleccionado un archivo txt o csv');
+        validaralert();
         archivoInput.value = '';
         return false;
     }
@@ -82,7 +82,7 @@ function validarExt2()
     var archivoRuta2 = archivoInput2.value;
     var extPermitidas2 = /(.txt|.csv)$/i;
     if(!extPermitidas2.exec(archivoRuta2)){
-        alert('Asegurese de haber seleccionado un archivo txt o csv');
+        validaralert();
         archivoInput2.value = '';
         return false;
     }
@@ -101,6 +101,10 @@ function validarExt2()
             visor2.readAsDataURL(archivoInput2.files[0]);
         }
     }
+}
+function validaralert()
+{
+    swal("Cancelled", "Make Sure You Have Selected a txt or csv File", "error");
 }
 </script>
 @endsection

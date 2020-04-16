@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Alert;
 
 class UserController extends Controller
 {
@@ -14,9 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-    $permission = User::all();
-    return view('users.index', ['archivos'=>$permission]);
+        $users = User::paginate(4);
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -48,7 +48,7 @@ class UserController extends Controller
      */
     public function show(user $user)
     {
-        //
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -80,8 +80,18 @@ class UserController extends Controller
      * @param  \App\user  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(user $user)
+    public function destroy(User $user)
     {
-        //
+        //var_dump($user);
+        $user->delete();
+        Alert::success('Success', 'User Has Been Successfully Deleted');
+        return back();
+    }
+
+    function imprimir() {
+        $users = User::all();
+
+        $pdf = \PDF::loadView('users.pdf', compact('users'));
+        return $pdf->download('Users.pdf');
     }
 }
