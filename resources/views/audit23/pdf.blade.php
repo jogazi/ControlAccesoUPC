@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Example 1</title>
+    <title>File Comparison</title>
   </head>
   <body>
     <header class="clearfix">

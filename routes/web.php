@@ -47,16 +47,16 @@ Route::middleware(['auth'])->group(function() {
     Route::get('roles/create', 'Audit06Controller@create')->name('roles.create')
            ->middleware('can:roles.create');
            
-    Route::put('roles/{role}', 'Audit06Controller@update')->name('roles.update')
+    Route::put('roles/{roles}', 'Audit06Controller@update')->name('roles.update')
            ->middleware('can:roles.edit');
 
-    Route::get('roles/{role}', 'Audit06Controller@show')->name('roles.show')
+    Route::get('roles/{roles}', 'Audit06Controller@show')->name('roles.show')
            ->middleware('can:roles.show');
            
-    Route::delete('roles/{role}', 'Audit06Controller@destroy')->name('roles.destroy')
+    Route::delete('roles/{roles}', 'Audit06Controller@destroy')->name('roles.destroy')
            ->middleware('can:roles.destroy');
 
-    Route::get('roles/{role}/edit', 'Audit06Controller@edit')->name('roles.edit')
+    Route::get('roles/{roles}/edit', 'Audit06Controller@edit')->name('roles.edit')
            ->middleware('can:roles.edit');
 
     //audsys

@@ -14,9 +14,8 @@ class Audit06Controller extends Controller
      */
     public function index()
     {
-        //
-    $permission = Role::all();
-    return view('audit06.index', ['archivos'=>$permission]);
+        $roles = Role::where("state","=","A")->paginate(4);
+        return view('roles.index', compact('roles'));
     }
 
     /**
@@ -43,21 +42,21 @@ class Audit06Controller extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\audit06  $audit06
+     * @param  \App\Role  $roles
      * @return \Illuminate\Http\Response
      */
-    public function show(audit06 $audit06)
+    public function show(Role $roles)
     {
-        //
+        return view('roles.show', compact('roles'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\audit06  $audit06
+     * @param  \App\Role  $roles
      * @return \Illuminate\Http\Response
      */
-    public function edit(audit06 $audit06)
+    public function edit(Role $roles)
     {
         //
     }
@@ -66,10 +65,10 @@ class Audit06Controller extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\audit06  $audit06
+     * @param  \App\Role  $roles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, audit06 $audit06)
+    public function update(Request $request, Role $roles)
     {
         //
     }
@@ -77,11 +76,23 @@ class Audit06Controller extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\audit06  $audit06
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(audit06 $audit06)
+    public function destroy(Role $roles)
     {
         //
+        $roles->state = "R";
+        $roles->save();
+        Alert::success('Success', 'Role Successfully Deleted');
+        return back();
+    }
+
+    function imprimir() {
+
+        $roles = Role::all()->where("state","=","A");
+        $pdf = \PDF::loadView('roles.pdf', compact('roles'));
+        return $pdf->download('Roles.pdf');
+
     }
 }

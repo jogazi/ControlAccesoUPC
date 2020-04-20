@@ -19,7 +19,7 @@ class Audit23Controller extends Controller
      */
     public function index()
     {
-        $audit23 = audit23::paginate(4);
+        $audit23 = audit23::where("state","=","A")->paginate(4);
         return view('audit23.index', compact('audit23'));
     }
 
@@ -50,28 +50,29 @@ class Audit23Controller extends Controller
         $guardado1=$_FILES['archivo1']['tmp_name'];
         $nombre2=$fecha."--2--".$_FILES['archivo2']['name'];
         $guardado2=$_FILES['archivo2']['tmp_name'];
-        
-        if(!file_exists('public/archivos')){
-            mkdir('public/archivos',0777,true);
-            if(file_exists('public/archivos')){
-                if(move_uploaded_file($guardado1, 'public/archivos/'.$nombre1)){
+        $routeinicial='public/archivos/';
+
+        if(!file_exists($routeinicial)){
+            mkdir($routeinicial,0777,true);
+            if(file_exists($routeinicial)){
+                if(move_uploaded_file($guardado1, $routeinicial.''.$nombre1)){
                     //echo "Archivo guardado con exito";
                 }else{
                     //echo "Archivo no se pudo guardar";
                 }
-                if(move_uploaded_file($guardado2, 'public/archivos/'.$nombre2)){
+                if(move_uploaded_file($guardado2, $routeinicial.''.$nombre2)){
                     //echo "Archivo guardado con exito";
                 }else{
                     //echo "Archivo no se pudo guardar";
                 }
             }
         }else{
-            if(move_uploaded_file($guardado1, 'public/archivos/'.$nombre1)){
+            if(move_uploaded_file($guardado1, $routeinicial.''.$nombre1)){
                 //echo "Archivo guardado con exito";
             }else{
                 //echo "Archivo no se pudo guardar";
             }
-            if(move_uploaded_file($guardado2, 'public/archivos/'.$nombre2)){
+            if(move_uploaded_file($guardado2, $routeinicial.''.$nombre2)){
                 //echo "Archivo guardado con exito";
             }else{
                 //echo "Archivo no se pudo guardar";
@@ -83,10 +84,10 @@ class Audit23Controller extends Controller
         //echo $archivo1;
 
         // path first file
-        $route1 = 'public/archivos/'.$nombre1;
+        $route1 = $routeinicial.''.$nombre1;
 
         //second file path
-        $route2 = 'public/archivos/'.$nombre2;
+        $route2 =  $routeinicial.''.$nombre2;
 
        // echo $request["archivo1"]->name;
         $nameext1 = $archivo1["name"];
@@ -158,42 +159,97 @@ class Audit23Controller extends Controller
             $diffsize="N";
             $detdiffsize="Files are the same size";
         }
-        $diffinfo="N";
-        $detdiffinfo="this test";
 
+        //file content 1
+        $fileContent1 = file_get_contents($route1);
+        $rows1        = explode("\n",$fileContent1);
+        $numRows1     = count($rows1);
+        
+        if ($extension1=="C") {
+            $numRows1  = $numRows1-1;
+        }
 
-        $codigo1="1";
-        $nombre1="1";
-        $nofactura1="1";
-        $valor1="1";
-        $concepto1="1";
+        $detnumRows1  = $numRows1-1;
+        //echo $numRows1;
+        //print_r($fileContent1);
 
-        $codigo2="1";
-        $nombre2="1";
-        $nofactura2="1";
-        $valor2="1";
-        $concepto2="1";
+        //file content 2
+        $fileContent2 = file_get_contents($route2);
+        $rows2        = explode("\n",$fileContent2);
+        $numRows2     = count($rows2);
 
-        // creating new records
-        $audit24 = new audit24;
-        $audit24->codigo = $codigo1;
-        $audit24->nombre = $nombre1;
-        $audit24->nofactura = $nofactura1;
-        $audit24->valor = $valor1;
-        $audit24->concepto = $concepto1;
-        $audit24->save();
+        if ($extension1=="C") {
+            $numRows2  = $numRows2-1;
+        }
 
-        // creating new records
-        $audit25 = new audit25;
-        $audit25->codigo = $codigo2;
-        $audit25->nombre = $nombre2;
-        $audit25->nofactura = $nofactura2;
-        $audit25->valor = $valor2;
-        $audit25->concepto = $concepto2;
-        $audit25->save();
+        $detnumRows2  = $numRows2-1;
+        //echo $numRows2;
+        //print_r($fileContent2);
 
-        $idaudit24 = audit24::all()->last();
-        $idaudit25 = audit25::all()->last();
+        $contentdiff=" ";
+        if ($numRows1==$numRows2) {
+            $diffinfo = "N";
+            $detdiffinfo = "Files have the same number of rows " . $detnumRows2 . " and the information is the same" ;
+
+            for($i=0;$i<$numRows1;$i++){
+                //echo $i;
+                $cols1 = explode(";",$rows1[$i]);
+                $title1 = explode(";",$rows1[0]);
+                $numCols1= count($cols1);
+                //print_r($cols1);
+                $cols2 = explode(";",$rows2[$i]);
+                $title2 = explode(";",$rows2[0]);
+                $numCols2 = count($cols2);
+                //print_r($cols2);
+
+                for($j=0;$j<$numCols1;$j++){
+                    //echo $cols1[$j];
+                    //print_r($cols1[$j]);
+                    //echo $cols2[$j];
+                    //print_r($cols2[$j]);
+
+                    if ($cols1[$j]!=$cols2[$j]) {
+                        $diffinfo = "Y";
+                        $detdiffinfo = "Files have the same number of rows " . $detnumRows2 . " and the information is not the same" ;
+                        $contentdiff .= " the information is not the same, in row " . $i . " of file 1 the " . $title1[$j] . " is " . $cols1[$j] . " and in file 2 the " . $title2[$j] . " is " . $cols2[$j] ;
+                    }
+                }
+            }
+        }else {
+            $diffinfo = "Y";
+            $detdiffinfo = "The files do not have the same number of rows and the information is not the same, file 1 has " . $detnumRows1 . " rows and file 2 has " . $detnumRows2 . " rows";
+
+            if ($numRows1>=$numRows2) {
+                $less = $numRows2;
+            } else {
+                $less = $numRows1;
+            }
+            
+            for($i=0;$i<$less;$i++){
+                //echo $i;
+                $cols1 = explode(";",$rows1[$i]);
+                $title1 = explode(";",$rows1[0]);
+                $numCols1= count($cols1);
+                //print_r($cols1);
+                $cols2 = explode(";",$rows2[$i]);
+                $title2 = explode(";",$rows2[0]);
+                $numCols2 = count($cols2);
+                //print_r($cols2);
+
+                for($j=0;$j<$numCols1;$j++){
+                    //echo $cols1[$j];
+                    //print_r($cols1[$j]);
+                    //echo $cols2[$j];
+                    //print_r($cols2[$j]);
+
+                    if ($cols1[$j]!=$cols2[$j]) {
+                        $contentdiff .= " the information is not the same, in row " . $i . " of file 1 the " . $title1[$j] . " is " . $cols1[$j] . " and in file 2 the " . $title2[$j] . " is " . $cols2[$j] ;
+                    }
+                }
+            }
+        }
+
+        $detdiffinfo = $detdiffinfo . " " . $contentdiff;
 
         // creating new records
         $audit23 = new audit23;
@@ -207,13 +263,48 @@ class Audit23Controller extends Controller
         $audit23->detdiffsize = $detdiffsize;
         $audit23->diffinfo = $diffinfo;
         $audit23->detdiffinfo = $detdiffinfo;
-        $audit23->idaudit24 = $idaudit24->idaudit24;
-        $audit23->idaudit25 = $idaudit25->idaudit25;
         $audit23->id = $user->id;
         $audit23->save();
 
-        
+        $idaudit23 = audit23::all()->last();
+
+        //tour file 1 and record in database
+        for($i=0;$i<$numRows1;$i++){
+            //echo $i;
+            $cols1 = explode(";",$rows1[$i]);
+            //print_r($cols1);
+
+            // creating new records
+            $audit24 = new audit24;
+            $audit24->codigo    = $cols1[0];
+            $audit24->nombre    = $cols1[1];
+            $audit24->nofactura = $cols1[2];
+            $audit24->valor     = $cols1[3];
+            $audit24->concepto  = $cols1[4];
+            $audit24->idfile    = $idaudit23->idfile;
+            $audit24->save();
+        }
+
+
+        //tour file 2 and record in database
+        for($i=0;$i<$numRows2;$i++){
+            //echo $i;
+            $cols2 = explode(";",$rows2[$i]);
+            //print_r($cols2);
+
+            // creating new records
+            $audit25 = new audit25;
+            $audit25->codigo    = $cols2[0];
+            $audit25->nombre    = $cols2[1];
+            $audit25->nofactura = $cols2[2];
+            $audit25->valor     = $cols2[3];
+            $audit25->concepto  = $cols2[4];
+            $audit25->idfile    = $idaudit23->idfile;
+            $audit25->save();
+        }
+
         $audit23 = audit23::all()->last();
+        Alert::success('Success', 'Files Compared Successfully');
         return view('audit23.show', compact('audit23'));
     }
 
@@ -260,7 +351,14 @@ class Audit23Controller extends Controller
     public function destroy(audit23 $audit23)
     {
         //var_dump($audit23);
-        $audit23->delete();
+
+        $audit23->state = "R";
+        $audit23->save();
+
+        //delete registry and delete files from server
+        //unlink($audit23->route1);
+        //unlink($audit23->route2);
+        //$audit23->delete();
         Alert::success('Success', 'Files Compared Successfully Deleted');
         return back();
     }
@@ -268,7 +366,7 @@ class Audit23Controller extends Controller
     
     function imprimir() {
 
-        $audit23 = audit23::all();
+        $audit23 = audit23::all()->where("state","=","A");
         $pdf = \PDF::loadView('audit23.pdf', compact('audit23'));
         return $pdf->download('files-scanned.pdf');
 

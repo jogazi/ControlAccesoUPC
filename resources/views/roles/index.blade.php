@@ -7,11 +7,12 @@
             <div class="card">
                 <div class="card-header">
                     <div style="text-align: center">
-                    <h1> Compared Files List </h1>
+                    <h1> Roles List </h1>
                     </div>
                     <div  style="text-align: center">
-                        <a href="{{ route('pdffiles') }}"  class="btn btn-secondary"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                        <a href="{{ route('comparacion') }}" class="btn btn-primary"><i class="fas fa-file-csv"></i> New Comparison</a>
+                        @can('roles.pdf')
+                        <a href="{{ route('pdfroles') }}"  class="btn btn-secondary"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -20,34 +21,38 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    @if($audit23->count())
+                    @if($roles->count())
                         <table class="table">
                             <tr>
                                 <th> Id </th>
-                                <th> File 1 </th>
-                                <th> Size 1 </th>
-                                <th> File 2 </th>
-                                <th> Size 2 </th>
+                                <th> Name </th>
+                                <th> Slug </th>
+                                <th> Description </th>
+                                <th>  </th>
                                 <th>  </th>
                                 <th>  </th>
                             </tr>
-                            @foreach($audit23 as $item)
+                            @foreach($roles as $item)
                             <tr>
-                                <td> {{ $item->idfile }} </td>
-                                <td> {{ $item->route1 }} </td>
-                                <td> {{ $item->size1 }} </td>
-                                <td> {{ $item->route2 }} </td>
-                                <td> {{ $item->size2 }} </td>
-                                @can('audit23.show')
+                                <td> {{ $item->id }} </td>
+                                <td> {{ $item->name }} </td>
+                                <td> {{ $item->slug }} </td>
+                                <td> {{ $item->description }} </td>
+                                @can('roles.show')
                                 <td>
-                                    <a class="btn btn-success" href="{{ route('audit23.show',$item->idfile) }}"><i class="far fa-eye"></i> Show</a>
+                                    <a class="btn btn-success" href="{{ route('roles.show',$item->id) }}"><i class="far fa-eye"></i> Show</a>
                                 </td>
                                 @endcan
-                                @can('audit23.destroy')
+                                @can('roles.edit')
+                                <td> 
+                                    <a class="btn btn-info" href="{{ route('roles.edit',$item->id) }}"><i class="far fa-edit"></i> Edit</a>
+                                </td>
+                                @endcan
+                                @can('roles.destroy')
                                 <td>
-                                    {!! Form::open(['route' => ['audit23.destroy', $item->idfile],'id' => "deletefile$item->idfile", 
+                                    {!! Form::open(['route' => ['roles.destroy', $item->id],'id' => "deleterole$item->id", 
                                     'method' => 'DELETE']) !!}
-                                        <button type="button" class="btn btn-danger delete-confirm" onclick="confirmDelete('deletefile{{ $item->idfile }}')">
+                                        <button type="button" class="btn btn-danger delete-confirm" onclick="confirmDelete('deleteuser{{ $item->id }}')">
                                             <i class="far fa-trash-alt"></i>
                                             Delete
                                         </button>
@@ -57,7 +62,7 @@
                             </tr>
                             @endforeach
                         </table>
-                    {{ $audit23->render() }}
+                    {{ $roles->render() }}
                     @else
                       <p> No records found </p>
                     @endif

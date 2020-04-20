@@ -5,8 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">File comparison</div>
-
+            <div class="text-center" >
+                <div class="card-header"> <h1> File comparison </h1></div> 
+             </div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -40,7 +41,7 @@
                             </td>
                         </tr>
                         </table>
-                        <button>Compare Files</button>
+                        <button class="btn btn-primary"> <i class="fas fa-compress-arrows-alt"></i> Compare Files </button>
 	                </form>
                 </div>
             </div>
@@ -62,7 +63,7 @@ function validarExt()
 
     else
     {
-        //PRevio del PDF
+        //file display
         if (archivoInput.files && archivoInput.files[0]) 
         {
             var visor = new FileReader();
@@ -89,7 +90,7 @@ function validarExt2()
 
     else
     {
-        //PRevio del PDF
+        //file display
         if (archivoInput2.files && archivoInput2.files[0]) 
         {
             var visor2 = new FileReader();

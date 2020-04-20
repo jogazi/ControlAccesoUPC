@@ -21,7 +21,7 @@
                                 <th> Email </th> <td> {{ $user->email }} </td>
                             </tr>
                         </table>
-                    <a class="btn btn-success" href="{{ route('users.index') }}"><i class="fas fa-arrow-alt-circle-left"></i> Volver Atrás</a>
+                    <a class="btn btn-success" href="{{ route('users.index') }}"><i class="fas fa-arrow-alt-circle-left"></i> Go back</a>
                 </div>
             </div>
         </div>

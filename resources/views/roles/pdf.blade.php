@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Users</title>
+    <title>Roles</title>
   </head>
   <body>
     <header class="clearfix">
@@ -27,15 +27,19 @@
       <table align="center" border=1>
         <thead >
           <tr >
-            <th > Name </th>
-            <th > Email </th>
+            <th> Id </th>
+            <th> Name </th>
+            <th> Slug </th>
+            <th> Description </th>
           </tr>
         </thead>
         <tbody>
-        @foreach($users as $item)
+        @foreach($roles as $item)
           <tr>
-            <td >{{ $item->name }} </td>
-            <td >{{ $item->email }}</td>
+            <td> {{ $item->id }} </td>
+            <td> {{ $item->name }} </td>
+            <td> {{ $item->slug }} </td>
+            <td> {{ $item->description }} </td>
           </tr>
         @endforeach
         </tbody>
