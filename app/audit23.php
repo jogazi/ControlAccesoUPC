@@ -29,4 +29,9 @@ class audit23 extends Model
     {
         return $this->hasMany(audit25::class, 'idfile', 'idfile');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id', 'id');
+    }
 }

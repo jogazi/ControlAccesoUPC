@@ -163,6 +163,7 @@ class Audit23Controller extends Controller
         //file content 1
         $fileContent1 = file_get_contents($route1);
         $rows1        = explode("\n",$fileContent1);
+        $title1 = explode(";",$rows1[0]);
         $numRows1     = count($rows1);
         
         if ($extension1=="C") {
@@ -176,6 +177,7 @@ class Audit23Controller extends Controller
         //file content 2
         $fileContent2 = file_get_contents($route2);
         $rows2        = explode("\n",$fileContent2);
+        $title2 = explode(";",$rows2[0]);
         $numRows2     = count($rows2);
 
         if ($extension1=="C") {
@@ -194,11 +196,9 @@ class Audit23Controller extends Controller
             for($i=0;$i<$numRows1;$i++){
                 //echo $i;
                 $cols1 = explode(";",$rows1[$i]);
-                $title1 = explode(";",$rows1[0]);
                 $numCols1= count($cols1);
                 //print_r($cols1);
                 $cols2 = explode(";",$rows2[$i]);
-                $title2 = explode(";",$rows2[0]);
                 $numCols2 = count($cols2);
                 //print_r($cols2);
 
@@ -220,19 +220,21 @@ class Audit23Controller extends Controller
             $detdiffinfo = "The files do not have the same number of rows and the information is not the same, file 1 has " . $detnumRows1 . " rows and file 2 has " . $detnumRows2 . " rows";
 
             if ($numRows1>=$numRows2) {
-                $less = $numRows2;
+                $less   = $numRows2;
+                $higher = $numRows1;
+                $act    =1;
             } else {
-                $less = $numRows1;
+                $less   = $numRows1;
+                $higher = $numRows2;
+                $act    =2;
             }
             
             for($i=0;$i<$less;$i++){
                 //echo $i;
                 $cols1 = explode(";",$rows1[$i]);
-                $title1 = explode(";",$rows1[0]);
                 $numCols1= count($cols1);
                 //print_r($cols1);
                 $cols2 = explode(";",$rows2[$i]);
-                $title2 = explode(";",$rows2[0]);
                 $numCols2 = count($cols2);
                 //print_r($cols2);
 
@@ -244,6 +246,27 @@ class Audit23Controller extends Controller
 
                     if ($cols1[$j]!=$cols2[$j]) {
                         $contentdiff .= " the information is not the same, in row " . $i . " of file 1 the " . $title1[$j] . " is " . $cols1[$j] . " and in file 2 the " . $title2[$j] . " is " . $cols2[$j] ;
+                    }
+                }
+            }
+
+            //difference records second part
+            for($i=$less;$i<$higher;$i++){
+                //echo $i;
+                if ($act==1) {
+                    $cols = explode(";",$rows1[$i]);
+                    $numCols= count($cols);
+                } else {
+                    $cols = explode(";",$rows2[$i]);
+                    $numCols = count($cols);
+                }
+                //print_r($cols);
+
+                for($j=0;$j<$numCols;$j++){
+                    if ($act==1) {
+                        $contentdiff .= " the information is not the same, in row " . $i . " of file 1 the " . $title1[$j] . " is " . $cols[$j] . " and in file 2 the " . $title2[$j] . " is 'no data'" ;
+                    } else {
+                        $contentdiff .= " the information is not the same, in row " . $i . " of file 1 the " . $title1[$j] . " is 'no data' and in file 2 the " . $title2[$j] . " is " . $cols[$j] ;
                     }
                 }
             }
@@ -365,11 +388,9 @@ class Audit23Controller extends Controller
 
     
     function imprimir() {
-
         $audit23 = audit23::all()->where("state","=","A");
         $pdf = \PDF::loadView('audit23.pdf', compact('audit23'));
         return $pdf->download('files-scanned.pdf');
-
     }
 }
 

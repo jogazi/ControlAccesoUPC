@@ -87,6 +87,15 @@
                             <tr>
                                 <th> Information difference detail </th> <td> {{ $audit23->detdiffinfo }} </td>
                             </tr>
+                            <tr>
+                                <th> User Id </th> <td> {{ $audit23->user->id }} </td>
+                            </tr>
+                            <tr>
+                                <th> User Name </th> <td> {{ $audit23->user->name }} </td>
+                            </tr>
+                            <tr>
+                                <th> User Email </th> <td> {{ $audit23->user->email }} </td>
+                            </tr>
                         </table>
                     <a class="btn btn-success" href="{{ route('audit23.index') }}"><i class="fas fa-arrow-alt-circle-left"></i> Go back</a>
                 </div>
