@@ -19,6 +19,32 @@ CREATE SCHEMA IF NOT EXISTS `u892058990_AOMJK` DEFAULT CHARACTER SET utf8 ;
 USE `u892058990_AOMJK` ;
 
 -- -----------------------------------------------------
+-- Table `u892058990_AOMJK`.`appmovil`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `u892058990_AOMJK`.`appmovil` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `temp` VARCHAR(10) NOT NULL,
+  `hume` VARCHAR(10) NOT NULL,
+  `soni` VARCHAR(10) NOT NULL,
+  `radi` VARCHAR(10) NOT NULL,
+  `fecha` date NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `u892058990_AOMJK`.`loteria`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `u892058990_AOMJK`.`loteria` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `f1` VARCHAR(10) NOT NULL,
+  `f2` VARCHAR(10) NOT NULL,
+  `f3` VARCHAR(10) NOT NULL,
+  `carton` VARCHAR(10) NOT NULL,
+  `fecha` datetime NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `u892058990_AOMJK`.`audit01`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `u892058990_AOMJK`.`audit01` (
@@ -515,11 +541,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 
-insert into u892058990_AOMJK.permissions (name,slug,description,created_at,updated_at) values('Browse users','users.index','List and browse all system users',now(),now());
-insert into u892058990_AOMJK.permissions (name,slug,description,created_at,updated_at) values('User update','users.update','Update any data of a system user',now(),now());
-insert into u892058990_AOMJK.permissions (name,slug,description,created_at,updated_at) values('View user detail','users.show','See in detail each system user',now(),now());
-insert into u892058990_AOMJK.permissions (name,slug,description,created_at,updated_at) values('Delete user','users.destoy','remove any user from the system',now(),now());
-insert into u892058990_AOMJK.permissions (name,slug,description,created_at,updated_at) values('Edition user','users.edit','allows the form view',now(),now());
+
 insert into u892058990_AOMJK.permissions (name,slug,description,created_at,updated_at) values('Store roles','roles.store','Store roles',now(),now());
 insert into u892058990_AOMJK.permissions (name,slug,description,created_at,updated_at) values('Browse roles','roles.index','List and browse all system Rol',now(),now());
 insert into u892058990_AOMJK.permissions (name,slug,description,created_at,updated_at) values('Create roles','roles.create','Create rol in all system',now(),now());
@@ -588,4 +610,3 @@ insert into u892058990_AOMJK.users (name,email,password,created_at,updated_at) v
 
 insert into u892058990_AOMJK.role_user (role_id,user_id,created_at,updated_at) values(1,1,now(),now());
 insert into u892058990_AOMJK.role_user (role_id,user_id,created_at,updated_at) values(1,2,now(),now());
-

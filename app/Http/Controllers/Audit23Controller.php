@@ -7,6 +7,7 @@ use App\audit23;
 use App\audit24;
 use App\audit25;
 use Alert;
+use Auth;
 
 use Illuminate\Http\Request;
 
@@ -19,8 +20,13 @@ class Audit23Controller extends Controller
      */
     public function index()
     {
-        $audit23 = audit23::where("state","=","A")->paginate(4);
+        $userauth=Auth::user()->id;
+        $audit23 = audit23::where([
+        ["state","=","A"],
+        ["id","=","$userauth"],
+        ])->paginate(4);
         return view('audit23.index', compact('audit23'));
+
     }
 
     /**
@@ -219,7 +225,7 @@ class Audit23Controller extends Controller
             $diffinfo = "Y";
             $detdiffinfo = "The files do not have the same number of rows and the information is not the same, file 1 has " . $detnumRows1 . " rows and file 2 has " . $detnumRows2 . " rows";
 
-            if ($numRows1>=$numRows2) {
+            if ($numRows1>$numRows2) {
                 $less   = $numRows2;
                 $higher = $numRows1;
                 $act    =1;
@@ -327,7 +333,7 @@ class Audit23Controller extends Controller
         }
 
         $audit23 = audit23::all()->last();
-        Alert::success('Success', 'Files Compared Successfully');
+        Alert::success('Success', 'Comparation Successfully');
         return view('audit23.show', compact('audit23'));
     }
 

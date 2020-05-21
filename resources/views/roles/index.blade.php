@@ -8,10 +8,13 @@
                 <div class="card-header">
                     <div style="text-align: center">
                     <h1> Roles List </h1>
-                    </div>
+                    </div> 
                     <div  style="text-align: center">
                         @can('roles.pdf')
                         <a href="{{ route('pdfroles') }}"  class="btn btn-secondary"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        @endcan
+                        @can('roles.create')
+                        <a href="{{ route('roles.create') }}" class="btn btn-primary"><i class="far fa-file"></i> New Role</a>
                         @endcan
                     </div>
                 </div>
@@ -52,7 +55,7 @@
                                 <td>
                                     {!! Form::open(['route' => ['roles.destroy', $item->id],'id' => "deleterole$item->id", 
                                     'method' => 'DELETE']) !!}
-                                        <button type="button" class="btn btn-danger delete-confirm" onclick="confirmDelete('deleteuser{{ $item->id }}')">
+                                        <button type="button" class="btn btn-danger delete-confirm" onclick="confirmDelete('deleterole{{ $item->id }}')">
                                             <i class="far fa-trash-alt"></i>
                                             Delete
                                         </button>

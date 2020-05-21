@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bitacora extends Model
+class Roleuser extends Model
 {
-    protected $table = 'appmovil';
+    protected $table = 'role_user';
     protected $primaryKey = 'id';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -17,6 +17,6 @@ class Bitacora extends Model
      * @var array
      */
     protected $fillable = [
-        'temp','hume','soni','radi','fecha',
+        'role_id','user_id','created_at','updated_at',
     ];
 }

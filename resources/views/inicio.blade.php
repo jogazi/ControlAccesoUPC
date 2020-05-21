@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div style="text-align: center">
-                    <h1> Hello {{ Auth::user()->name }} </h1>
+                    <h1> Now Playing </h1>
                     </div>
                     <div  style="text-align: center">
 

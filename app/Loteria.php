@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bitacora extends Model
+class Loteria extends Model
 {
-    protected $table = 'appmovil';
+    protected $table = 'loteria';
     protected $primaryKey = 'id';
 
     public $timestamps = false;
@@ -17,6 +17,6 @@ class Bitacora extends Model
      * @var array
      */
     protected $fillable = [
-        'temp','hume','soni','radi','fecha',
+        'f1','f2','f3','carton','fecha',
     ];
 }

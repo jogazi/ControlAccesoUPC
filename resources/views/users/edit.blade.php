@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Roles</div>
+                <div class="card-header">Users</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,10 +13,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    {!! Form::model($role, ['route' => ['roles.update', $role->id],
+                    {!! Form::model($use, ['route' => ['users.update', $use->id],
                     'method' => 'PUT']) !!}
 
-                        @include('roles.partials.form')
+                        @include('users.partials.form')
                         
                     {!! Form::close() !!}
                 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Caffeinated\Shinobi\Models\Role;
 use Alert;
 
 class UserController extends Controller
@@ -57,9 +58,12 @@ class UserController extends Controller
      * @param  \App\user  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(user $user)
+    public function edit($user)
     {
-        //
+        $use = User::find($user);
+        $roles = Role::get();
+
+        return view('users.edit', compact('use', 'roles'));
     }
 
     /**
@@ -69,9 +73,16 @@ class UserController extends Controller
      * @param  \App\user  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, user $user)
+    public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->update($request->all());
+
+        $user->roles()->sync($request->get('roles'));
+
+        Alert::success('Success', 'User Successfully Modified');
+        return redirect()->route('users.edit', $user->id)
+            ->with('info', 'Usuario guardado con éxito');
     }
 
     /**

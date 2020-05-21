@@ -13,8 +13,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('inicio');
 });
+Route::get('/juego', function () {
+    return view('juego');
+});
+
+Route::get('/loteria/{fila1}/{fila2}/{fila3}/{carton}', 'LoteriaController@store')->name('loteria');
+Route::get('/appmovilcreate/{temp}/{hume}/{soni}/{radi}', 'BitacoraController@store')->name('appmovilcreate');
+Route::get('/appmovilindex', 'BitacoraController@index')->name('appmovilindex');
+Route::get('/appmoviltemporalidad/{fini}/{hini}/{ffin}/{hfin}', 'BitacoraController@temporalidad')->name('appmoviltemporalidad');
 
 Auth::routes();
 
@@ -26,6 +34,8 @@ Route::middleware(['auth'])->group(function() {
     //test
     Route::resource('store', 'Audit23Controller');
     Route::get('/storess', 'Audit06Controller@index')->name('storess');
+
+
 
     //pdf
     Route::get('/print-files', 'Audit23Controller@imprimir')->name('pdffiles');
@@ -55,6 +65,9 @@ Route::middleware(['auth'])->group(function() {
            
     Route::delete('roles/{roles}', 'Audit06Controller@destroy')->name('roles.destroy')
            ->middleware('can:roles.destroy');
+
+    Route::delete('files/{audit23}', 'Audit23Controller@destroy')->name('audit23.destroy')
+           ->middleware('can:audit23.destroy');
 
     Route::get('roles/{roles}/edit', 'Audit06Controller@edit')->name('roles.edit')
            ->middleware('can:roles.edit');
@@ -227,7 +240,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('users', 'UserController@index')->name('users.index')
            ->middleware('can:users.index');
 
-    Route::post('users/update', 'UserController@update')->name('users.update')
+    Route::put('users/{user}', 'UserController@update')->name('users.update')
            ->middleware('can:users.edit');
 
     Route::get('users/{user}', 'UserController@show')->name('users.show')
@@ -236,7 +249,7 @@ Route::middleware(['auth'])->group(function() {
     Route::delete('users/{user}', 'UserController@destroy')->name('users.destroy')
            ->middleware('can:users.destroy');
 
-    Route::get('users/edit', 'UserController@edit')->name('users.edit')
+    Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit')
            ->middleware('can:users.edit');
 
     //files

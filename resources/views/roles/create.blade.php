@@ -5,20 +5,24 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Roles</div>
-
+                <div class="card-header">
+                    <div style="text-align: center">
+                    <h1> Create Roles </h1>
+                    </div> 
+                    <div  style="text-align: center">
+                    </div>
+                </div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
-                    {!! Form::model($role, ['route' => ['roles.update', $role->id],
-                    'method' => 'PUT']) !!}
+                    {{ Form::open(['route' => 'roles.store']) }}
 
                         @include('roles.partials.form')
                         
-                    {!! Form::close() !!}
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>

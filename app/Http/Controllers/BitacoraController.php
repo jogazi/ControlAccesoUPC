@@ -14,7 +14,8 @@ class BitacoraController extends Controller
      */
     public function index()
     {
-        //
+        $appmovil = Bitacora::all();
+        return $appmovil;
     }
 
     /**
@@ -22,7 +23,7 @@ class BitacoraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() 
     {
         //
     }
@@ -33,9 +34,19 @@ class BitacoraController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($temp, $hume, $soni, $radi)
     {
-        //
+        date_default_timezone_set('America/Los_Angeles');
+        $fecha = date("Y-m-d H:i:s");
+        // creating new records
+        $appmovil = new Bitacora;
+        $appmovil->temp = $temp;
+        $appmovil->hume = $hume;
+        $appmovil->soni = $soni;
+        $appmovil->radi = $radi;
+        $appmovil->fecha = $fecha;
+        $appmovil->save();
+        echo "los datos han sido registrados";
     }
 
     /**
@@ -44,9 +55,13 @@ class BitacoraController extends Controller
      * @param  \App\Bitacora  $bitacora
      * @return \Illuminate\Http\Response
      */
-    public function show(Bitacora $bitacora)
+    public function temporalidad($fini, $hini, $ffin, $hfin)
     {
-        //
+        $fh1 = $fini . " " . $hini;
+        $fh2 = $ffin . " " . $hfin;
+        $appmovil = Bitacora::whereBetween('fecha', array($fh1, $fh2))->get();
+        //$appmovil = Bitacora::all()->whereBetween('fecha', array($fini, $ffin));
+        return $appmovil;
     }
 
     /**

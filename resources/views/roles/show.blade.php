@@ -31,7 +31,7 @@
                                 <th> Description </th> <td> {{ $roles->description }} </td>
                             </tr>
                             <tr>
-                                <th> Created_at </th> <td> {{ $roles->created_at }} </td>
+                                <th> Creation date </th> <td> {{ $roles->created_at }} </td>
                             </tr>
                             <tr>
                                 <th> Special </th> <td> {{ $roles->special }} </td>

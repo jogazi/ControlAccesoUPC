@@ -315,9 +315,9 @@
                 @yield('content')
               </main>
           
-            <!-- /.container-fluid -->
+              <!-- /.container-fluid -->
 
-          </div>
+              </div>
           <!-- End of Main Content -->  
               <!-- Footer -->
               <footer class="sticky-footer bg-white">

@@ -10,8 +10,12 @@
                     <h1> Compared Files List </h1>
                     </div>
                     <div  style="text-align: center">
+                        @can('audit23.pdf')
                         <a href="{{ route('pdffiles') }}"  class="btn btn-secondary"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        @endcan
+                        @can('audit23.create')
                         <a href="{{ route('comparacion') }}" class="btn btn-primary"><i class="fas fa-file-csv"></i> New Comparison</a>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
