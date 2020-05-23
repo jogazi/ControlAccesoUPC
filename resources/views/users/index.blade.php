@@ -22,18 +22,43 @@
                         </div>
                     @endif
                     @if($users->count())
-                        <table class="table">
-                            <tr>
-                                <th> Name </th>
-                                <th> Email </th>
-                                <th>  </th>
-                                <th>  </th>
-                                <th>  </th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col"> Name </th>
+                                    <th scope="col"> Email </th>
+                                    <th scope="col"> Status </th>
+                                    <th scope="col">  </th>
+                                    <th scope="col">  </th>
+                                    <th scope="col">  </th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             @foreach($users as $item)
                             <tr>
                                 <td> {{ $item->name }} </td>
                                 <td> {{ $item->email }} </td>
+                                @can('users.destroy')
+                                <td>
+                                    {!! Form::open(['route' => ['users.state'],'id' => "stateuser$item->id", 
+                                    'method' => 'Post']) !!}
+                                        <input  type="hidden" name="iduser" value="{{ $item->id }}" />
+                                        @if ($item->active==0)
+                                            <button type="button" class="btn btn-success delete-confirm" onclick="confirmstate('stateuser{{ $item->id }}')">
+                                                <i class="fas fa-check-circle"></i>
+                                                Active
+                                            </button>
+                                            <input  type="hidden" name="opt" value="1" />
+                                        @else
+                                            <button type="button" class="btn btn-danger delete-confirm" onclick="confirmstate('stateuser{{ $item->id }}')">
+                                                <i class="far fa-check-circle"></i>
+                                                Desactive
+                                            </button>
+                                            <input  type="hidden" name="opt" value="0" />
+                                        @endif
+                                    {!! Form::close() !!}
+                                </td>
+                                @endcan
                                 @can('users.show')
                                 <td>
                                     <a class="btn btn-success" href="{{ route('users.show',$item->id) }}"><i class="far fa-eye"></i> Show</a>
@@ -57,6 +82,7 @@
                                 @endcan
                             </tr>
                             @endforeach
+                            <tbody>
                         </table>
                     {{ $users->render() }}
                     @else

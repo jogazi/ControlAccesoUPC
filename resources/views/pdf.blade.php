@@ -27,6 +27,7 @@
           <tr>
             <th class="service"> Name </th>
             <th class="service"> Email </th>
+            <th class="service"> State </th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +35,7 @@
           <tr>
             <td class="service">{{ $item->name }} </td>
             <td class="service">{{ $item->email }}</td>
+            <td class="service">{{ $item->active }}</td>
           </tr>
         @endforeach
         </tbody>

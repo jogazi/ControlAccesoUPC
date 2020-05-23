@@ -7,7 +7,9 @@
             <div class="card">
                 <div class="card-header">
                     <div style="text-align: center">
-                        <h1> User id {{ $use->id }}</h1>
+                    <h1> Create Room </h1>
+                    </div> 
+                    <div  style="text-align: center">
                     </div>
                 </div>
                 <div class="card-body">
@@ -16,12 +18,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    {!! Form::model($use, ['route' => ['users.update', $use->id],
-                    'method' => 'PUT']) !!}
+                    {{ Form::open(['route' => 'audit15.store']) }}
 
-                        @include('users.partials.form')
+                        @include('audit15.partials.form')
                         
-                    {!! Form::close() !!}
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>

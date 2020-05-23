@@ -41,11 +41,11 @@ class Audit06Controller extends Controller
     public function store(Request $request)
     {
         $audit = new Controller;
-        $audit->audit("C", "Audit06", Auth::user()->id, "Create");
+        $audit->audit("C", "Audit06", Auth::user()->id, "Create new role");
         $role = Role::create($request->all());
         $role->permissions()->sync($request->get('permissions'));
 
-        Alert::success('Success', 'Role Successfully Modified');
+        Alert::success('Success', 'Role Successfully Create');
         $roles = Role::where("state","=","A")->paginate(4);
         //return view('roles.index', compact('roles'));
                 return redirect()->route('roles.index', $roles);
@@ -74,7 +74,6 @@ class Audit06Controller extends Controller
     {
         $role = Role::find($roles);
         $permissions = Permission::get();
-        
         return view('roles.edit', compact('role', 'permissions'));
     }
 
@@ -89,6 +88,7 @@ class Audit06Controller extends Controller
     {
         $audit = new Controller;
         $audit->audit("U", "Audit06", Auth::user()->id, "Update");
+        
         $role = Role::find($id);
         $role->update($request->all());
         $role->permissions()->sync($request->get('permissions'));

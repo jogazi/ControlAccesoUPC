@@ -39,7 +39,13 @@ Route::middleware(['auth'])->group(function() {
 
     //pdf
     Route::get('/print-files', 'Audit23Controller@imprimir')->name('pdffiles');
+    Route::get('/print-actors', 'Audit09Controller@imprimir')->name('pdfactors');
+    Route::get('/print-movies', 'Audit12Controller@imprimir')->name('pdfmovies');
+    Route::get('/print-directors', 'Audit13Controller@imprimir')->name('pdfdirectors');
+    Route::get('/print-rooms', 'Audit15Controller@imprimir')->name('pdfrooms');
     Route::get('/print-users', 'UserController@imprimir')->name('pdfusers');
+    Route::get('/print-audit', 'Audit07Controller@imprimir')->name('pdfaudit')
+       ->middleware('can:audit07.pdf');
     Route::get('/print-roles', 'Audit06Controller@imprimir')->name('pdfroles');
 
     //sirviendo toca ubircar
@@ -66,9 +72,6 @@ Route::middleware(['auth'])->group(function() {
     Route::delete('roles/{roles}', 'Audit06Controller@destroy')->name('roles.destroy')
            ->middleware('can:roles.destroy');
 
-    Route::delete('files/{audit23}', 'Audit23Controller@destroy')->name('audit23.destroy')
-           ->middleware('can:audit23.destroy');
-
     Route::get('roles/{roles}/edit', 'Audit06Controller@edit')->name('roles.edit')
            ->middleware('can:roles.edit');
 
@@ -92,16 +95,16 @@ Route::middleware(['auth'])->group(function() {
     Route::get('actors/create', 'Audit09Controller@create')->name('audit09.create')
            ->middleware('can:audit09.create');
            
-    Route::put('actors/update', 'Audit09Controller@update')->name('audit09.update')
+    Route::put('actors/{actors}', 'Audit09Controller@update')->name('audit09.update')
            ->middleware('can:audit09.edit');
 
-    Route::get('actors/show', 'Audit09Controller@show')->name('audit09.show')
+    Route::get('actors/{audit09}', 'Audit09Controller@show')->name('audit09.show')
            ->middleware('can:audit09.show');
            
-    Route::delete('actors/delete', 'Audit09Controller@destroy')->name('audit09.destroy')
+    Route::delete('actors/{audit09}', 'Audit09Controller@destroy')->name('audit09.destroy')
            ->middleware('can:audit09.destroy');
 
-    Route::get('actors/edit', 'Audit09Controller@edit')->name('audit09.edit')
+    Route::get('actors/{actors}/edit', 'Audit09Controller@edit')->name('audit09.edit')
            ->middleware('can:audit09.edit');
 
     //directors
@@ -136,17 +139,18 @@ Route::middleware(['auth'])->group(function() {
     Route::get('films/create', 'Audit12Controller@create')->name('audit12.create')
            ->middleware('can:audit12.create');
            
-    Route::put('films/update', 'Audit12Controller@update')->name('audit12.update')
+    Route::put('films/{films}', 'Audit12Controller@update')->name('audit12.update')
            ->middleware('can:audit12.edit');
 
-    Route::get('films/show', 'Audit12Controller@show')->name('audit12.show')
+    Route::get('films/{audit12}', 'Audit12Controller@show')->name('audit12.show')
            ->middleware('can:audit12.show');
            
-    Route::delete('films/delete', 'Audit12Controller@destroy')->name('audit12.destroy')
+    Route::delete('films/{audit12}', 'Audit12Controller@destroy')->name('audit12.destroy')
            ->middleware('can:audit12.destroy');
 
-    Route::get('films/edit', 'Audit12Controller@edit')->name('audit12.edit')
+    Route::get('films/{films}/edit', 'Audit12Controller@edit')->name('audit12.edit')
            ->middleware('can:audit12.edit');
+
 
     //rooms
     Route::post('rooms/store', 'Audit15Controller@store')->name('audit15.store')
@@ -158,16 +162,16 @@ Route::middleware(['auth'])->group(function() {
     Route::get('rooms/create', 'Audit15Controller@create')->name('audit15.create')
            ->middleware('can:audit15.create');
            
-    Route::put('rooms/update', 'Audit15Controller@update')->name('audit15.update')
+    Route::put('rooms/{rooms}', 'Audit15Controller@update')->name('audit15.update')
            ->middleware('can:audit15.edit');
 
-    Route::get('rooms/show', 'Audit15Controller@show')->name('audit15.show')
+    Route::get('rooms/{audit15}', 'Audit15Controller@show')->name('audit15.show')
            ->middleware('can:audit15.show');
            
-    Route::delete('rooms/delete', 'Audit15Controller@destroy')->name('audit15.destroy')
+    Route::delete('rooms/{audit15}', 'Audit15Controller@destroy')->name('audit15.destroy')
            ->middleware('can:audit15.destroy');
 
-    Route::get('rooms/edit', 'Audit15Controller@edit')->name('audit15.edit')
+    Route::get('rooms/{rooms}/edit', 'Audit15Controller@edit')->name('audit15.edit')
            ->middleware('can:audit15.edit');
 
     //seating
@@ -243,14 +247,23 @@ Route::middleware(['auth'])->group(function() {
     Route::put('users/{user}', 'UserController@update')->name('users.update')
            ->middleware('can:users.edit');
 
+    Route::post('userss/{user}', 'UserController@update2')->name('users.update2');
+
     Route::get('users/{user}', 'UserController@show')->name('users.show')
            ->middleware('can:users.show');
+    
+    Route::get('userss/{userr}', 'UserController@profile')->name('users.profile');
            
     Route::delete('users/{user}', 'UserController@destroy')->name('users.destroy')
            ->middleware('can:users.destroy');
 
     Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit')
            ->middleware('can:users.edit');
+
+    Route::get('userss/{userr}/edit', 'UserController@edit2')->name('users.edit2');
+
+    Route::post('usersstate', 'UserController@state')->name('users.state')
+           ->middleware('can:users.state');
 
     //files
     Route::get('files', 'Audit23Controller@index')->name('audit23.index')

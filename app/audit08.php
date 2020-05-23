@@ -17,6 +17,6 @@ class audit08 extends Model
      * @var array
      */
     protected $fillable = [
-        'idsys','dsyscontroller', 'dsysmethod','dsysip','dsysbrowser',
+        'idsys','dsyscontroller', 'dsysmethod','dsysip',
     ];
 }

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"> User number {{ $user->id }}</div>
+                <div class="card-header"> Profile user </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -15,20 +15,21 @@
                     @endif
                         <table class="table">
                             <tr>
-                                <th> Name </th> <td> {{ $user->name }} </td>
+                                <th> Name </th> <td> {{ $userr->name }} </td>
                             </tr>
                             <tr>
-                                <th> Email </th> <td> {{ $user->email }} </td>
+                                <th> Email </th> <td> {{ $userr->email }} </td>
                             </tr>
                             <tr>
-                                <th> State </th> <td>  @if ($user->active==0)
+                                <th> State </th> <td>  @if ($userr->active==0)
                                                                     Deactivate
                                                                 @else
                                                                     Actived
                                                                 @endif </td>
                             </tr>
                         </table>
-                    <a class="btn btn-success" href="{{ route('users.index') }}"><i class="fas fa-arrow-alt-circle-left"></i> Go back</a>
+                    <a class="btn btn-success" href="{{ route('home') }}"><i class="fas fa-arrow-alt-circle-left"></i> Go back</a>
+                    <a class="btn btn-info" href="{{ route('users.edit2',$userr->id) }}"><i class="far fa-edit"></i> Edit</a>
                 </div>
             </div>
         </div>

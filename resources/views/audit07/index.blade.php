@@ -5,7 +5,16 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">lista archivosw consultados</div>
+                <div class="card-header">
+                    <div style="text-align: center">
+                      <h1> Historical log </h1>
+                    </div>
+                    <div  style="text-align: center">
+                      @can('audit07.pdf')
+                        <a href="{{ route('pdfaudit') }}"  class="btn btn-secondary"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                      @endcan
+                    </div>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,66 +22,103 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    @if($archivos->count())
-                        <table style="border: solid 1px #000;">
-                            <thead>
-                            <tr>
-                                <th style="width: 200px; border-bottom: solid 1px #000;"> ruta 1 </th>
-                                <th style="width: 200px; border-bottom: solid 1px #000;"> extension1 </th>
-                                <th style="width: 50px; border-bottom: solid 1px #000;"> size </th>
-                                <th style="width: 200px; border-bottom: solid 1px #000;"> ruta 2 </th>
-                                <th style="width: 200px; border-bottom: solid 1px #000;"> extension2 </th>
-                                <th style="width: 50px; border-bottom: solid 1px #000;"> size2 </th>
-                                <th style="width: 50px; border-bottom: solid 1px #000;"> </th>
-                                <th style="width: 50px; border-bottom: solid 1px #000;"> </th>
-                                <th style="width: 50px; border-bottom: solid 1px #000;"> </th>
-                            </tr>
+                    @if($permission->count())
+                        <table class="table table-hover">
+                          <thead>
+                              <tr>
+                                  <th scope="col"> Id </th>
+                                  <th scope="col"> Method </th>
+                                  <th scope="col"> Date Time </th>
+                                  <th scope="col"> User </th>
+                                  <th scope="col"> Role </th>
+                                  <th scope="col"> Data </th>
+                              </tr>
                             </thead>
                             <tbody>
-                            @foreach($archivos as $item)
+                            @foreach($permission as $item)
                                 <tr>
-                                    <td style="text-align: center;"> {{ $item->name }} </td>
-                                    <td style="text-align: center;"> {{ $item->slug }} </td>
+                                  <td> {{ $item->id_sys }} </td>
+                                  <td > 
+                                    @if ($item->sys_act=="C")
+                                      Create
+                                    @endif
+                                    @if ($item->sys_act=="R")
+                                      Read
+                                    @endif
+                                    @if ($item->sys_act=="U")
+                                      Update
+                                    @endif
+                                    @if ($item->sys_act=="D")
+                                      Delete
+                                    @endif
+                                    @if ($item->sys_act=="L")
+                                      Login
+                                    @endif
+                                  </td>
+                                  <td > {{ $item->sys_date }} </td>
+                                  <td > {{ $item->user->name }} </td>
+                                  <td > 
+                                    @foreach($item->user->roles as $item2)
+                                    {{ $item2->name }} 
+                                    @endforeach
+                                  </td>
+                                  <td>
+                                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal{{ $item->id_sys }}">
+                                        <i class="fas fa-book-reader"></i>
+                                        See data
+                                    </button>
 
-                                    <td style="text-align: center;"> <div class="container">
-  <h2>Modal Example</h2>
-  <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+                                        <!-- Modal -->
+  <div class="modal fade" id="myModal{{ $item->id_sys }}" role="dialog">
+    <div class="modal-dialog" role="document">
     
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title">Data content</h4>
         </div>
         <div class="modal-body">
-          <p>Some text in the modal.</p>
+          <div class="table-responsive"> 
+            <table class="table">
+                <tr>
+                  <th> Controller </th>
+                  <td> {{ $item->audit08->dsyscontroller }}    </td>
+                </tr>
+                <tr>
+                  <th> Action </th>
+                  <td> {{ $item->audit08->dsysmethod }}    </td>
+                </tr>
+                <tr>
+                  <th>  Ip user </th>
+                  <td> {{ $item->audit08->dsysip }}    </td>
+                </tr> 
+            </table>
+            </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-times"></i>
+              Close
+            </button>
         </div>
       </div>
       
     </div>
   </div>
-  
-</div> </td>
-                                    <td style="text-align: center;"> Editar </td>
-                                    <td style="text-align: center;"> Eliminar </td>
+                                  </td>
                                 </tr>
                             @endforeach
-                            </tbody>
+                              </tbody>
                         </table>
+                        {{ $permission->render() }}
                         @else
-                        <p> No se han encontrado archivos reshistrados </p>
+                        <p> No records found </p>
                         @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 @endsection

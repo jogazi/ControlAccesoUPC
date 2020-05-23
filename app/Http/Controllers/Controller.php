@@ -19,22 +19,13 @@ class Controller extends BaseController
         $act = strtoupper($act);
         $var = explode(",", $cntr);
         if ($var[0]=="Login") {
-            $douser = $var[1] . " " .$douser;
+            $douser = "login failed  using password " . $var[1];
             $cntr = $var[0];
         }
 
-        if ($act=="C") {
-            $mthd = "Create";
-        }elseif ($act=="R") {
-            $mthd = "Read";
-        }elseif ($act=="U") {
-            $mthd = "Update";
-        }elseif ($act=="D") {
-            $mthd = "Delete";
-        }
-
         date_default_timezone_set('America/Los_Angeles');
-        $fecha = date("Y-m-d H:i:s");
+        $fecha = mktime(date("H")+2, date("i"), date("s"), date("m")  , date("d"), date("Y"));
+        $fecha = date("Y-m-d H:i:s", $fecha);
 
         $ipuser = $_SERVER['HTTP_X_FORWARDED_FOR'];
 

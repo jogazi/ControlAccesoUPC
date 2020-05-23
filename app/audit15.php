@@ -17,6 +17,6 @@ class audit15 extends Model
      * @var array
      */
     protected $fillable = [
-        'crows', 'columns', 'image',
+        'name', 'quality', 'image',
     ];
 }

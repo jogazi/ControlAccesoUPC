@@ -25,16 +25,19 @@
                         </div>
                     @endif
                     @if($roles->count())
-                        <table class="table">
+                        <table class="table table-hover">
+                            <thead>
                             <tr>
-                                <th> Id </th>
-                                <th> Name </th>
-                                <th> Slug </th>
-                                <th> Description </th>
-                                <th>  </th>
-                                <th>  </th>
-                                <th>  </th>
+                                <th scope="col"> Id </th>
+                                <th scope="col"> Name </th>
+                                <th scope="col"> Slug </th>
+                                <th scope="col"> Description </th>
+                                <th scope="col">  </th>
+                                <th scope="col">  </th>
+                                <th scope="col">  </th>
                             </tr>
+                            </thead>
+                            <tbody>
                             @foreach($roles as $item)
                             <tr>
                                 <td> {{ $item->id }} </td>
@@ -64,6 +67,7 @@
                                 @endcan
                             </tr>
                             @endforeach
+                            </tbody>
                         </table>
                     {{ $roles->render() }}
                     @else

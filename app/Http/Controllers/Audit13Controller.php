@@ -14,9 +14,8 @@ class Audit13Controller extends Controller
      */
     public function index()
     {
-        //
-    $permission = audit13::all();
-    return view('audit13.index', ['archivos'=>$permission]);
+        $roles = audit13::where("state","=","A")->paginate(4);
+        return view('audit13.index', compact('roles'));
     }
 
     /**

@@ -20,11 +20,24 @@ class Audit23Controller extends Controller
      */
     public function index()
     {
-        $userauth=Auth::user()->id;
-        $audit23 = audit23::where([
-        ["state","=","A"],
-        ["id","=","$userauth"],
-        ])->paginate(4);
+        $userauth = Auth::user()->id;
+        $roles = Auth::user()->roles;   
+        $super=0;
+        foreach ($roles as $valor) {
+            $id = $valor->id;
+            if ($id=="1" || $id=="3") {
+                $super=1;
+            }
+        }
+        
+        if ($super==1) {
+            $audit23 = audit23::where("state","=","A")->paginate(4);
+        }else {
+            $audit23 = audit23::where([
+            ["state","=","A"],
+            ["id","=","$userauth"],
+            ])->paginate(4);
+        }
         return view('audit23.index', compact('audit23'));
 
     }
@@ -47,6 +60,9 @@ class Audit23Controller extends Controller
      */
     public function store(Request $request)
     {
+        $audit = new Controller;
+        $audit->audit("C", "Audit23", Auth::user()->id, "Create file comparisons");
+
         $email=$request["hidden"];
         $archivo1=$_FILES['archivo1'];
         $archivo2=$_FILES['archivo2'];
@@ -345,6 +361,8 @@ class Audit23Controller extends Controller
      */
     public function show(audit23 $audit23)
     {
+        $audit = new Controller;
+        $audit->audit("R", "Audit23", Auth::user()->id, "Show");
         return view('audit23.show', compact('audit23'));
     }
 
@@ -368,7 +386,8 @@ class Audit23Controller extends Controller
      */
     public function update(Request $request, audit23 $audit23)
     {
-        //
+        $audit = new Controller;
+        $audit->audit("U", "Audit23", Auth::user()->id, "Update");
     }
 
     /**
@@ -379,22 +398,56 @@ class Audit23Controller extends Controller
      */
     public function destroy(audit23 $audit23)
     {
-        //var_dump($audit23);
+        $audit = new Controller;
+        $userauth = Auth::user()->id;
+        $roles = Auth::user()->roles;   
+        $super=0;
+        foreach ($roles as $valor) {
+            $id = $valor->id;
+            if ($id=="1" || $id=="3") {
+                $super=1;
+            }
+        }
+        
+        if ($super==1) {
+            $audit->audit("D", "Audit23", Auth::user()->id, "Destroy for super admin file comparisons $audit23->idfile");
+            //delete registry and delete files from server
+            unlink($audit23->route1);
+            unlink($audit23->route2);
+            $audit23->delete();
+        }else {
+            $audit->audit("D", "Audit23", Auth::user()->id, "Destroy, Change Status file comparisons $audit23->idfile");
+            $audit23->state = "R";
+            $audit23->save();
+        }
 
-        $audit23->state = "R";
-        $audit23->save();
-
-        //delete registry and delete files from server
-        //unlink($audit23->route1);
-        //unlink($audit23->route2);
-        //$audit23->delete();
         Alert::success('Success', 'Files Compared Successfully Deleted');
         return back();
     }
 
     
     function imprimir() {
-        $audit23 = audit23::all()->where("state","=","A");
+        $audit = new Controller;
+        $userauth = Auth::user()->id;
+        $roles = Auth::user()->roles;   
+        $super=0;
+        foreach ($roles as $valor) {
+            $id = $valor->id;
+            if ($id=="1" || $id=="3") {
+                $super=1;
+            }
+        }
+        
+        if ($super==1) {
+            $audit23 = audit23::all()->where("state","=","A");
+            $audit->audit("R", "Audit23", Auth::user()->id, "Read, for super admin file comparisons report pdf ");
+        }else {
+            $audit23 = audit23::where([
+            ["state","=","A"],
+            ["id","=","$userauth"],
+            ])->paginate(4);
+            $audit->audit("R", "Audit23", Auth::user()->id, "Read, report pdf file comparisons ");
+        }
         $pdf = \PDF::loadView('audit23.pdf', compact('audit23'));
         return $pdf->download('files-scanned.pdf');
     }

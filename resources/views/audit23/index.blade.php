@@ -25,16 +25,19 @@
                         </div>
                     @endif
                     @if($audit23->count())
-                        <table class="table">
-                            <tr>
-                                <th> Id </th>
-                                <th> File 1 </th>
-                                <th> Size 1 </th>
-                                <th> File 2 </th>
-                                <th> Size 2 </th>
-                                <th>  </th>
-                                <th>  </th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col"> Id </th>
+                                    <th scope="col"> File 1 </th>
+                                    <th scope="col"> Size 1 </th>
+                                    <th scope="col"> File 2 </th>
+                                    <th scope="col"> Size 2 </th>
+                                    <th scope="col">  </th>
+                                    <th scope="col">  </th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             @foreach($audit23 as $item)
                             <tr>
                                 <td> {{ $item->idfile }} </td>
@@ -60,6 +63,7 @@
                                 @endcan
                             </tr>
                             @endforeach
+                            </tbody>
                         </table>
                     {{ $audit23->render() }}
                     @else

@@ -11,7 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('public/js/app.js') }}" defer></script>
-    <script src="{{ asset('public/js/alert3.js') }}" ></script>
+    <script src="{{ asset('public/js/alert4.js') }}" ></script>
 
     <!-- Fonts -->
     <link href="{{ asset('public/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -139,7 +139,7 @@
           <hr class="sidebar-divider my-0">
           <!-- Nav Item - Dashboard -->
           <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{ route('home') }}">
               <i class="fas fa-fw fa-tachometer-alt"></i>
               <span>Dashboard</span></a>
           </li>
@@ -234,7 +234,7 @@
           </li>
           <!-- Nav Item - comparisons record -->
           <li class="nav-item">
-            @can('audit07.index')
+            @can('audit23.index')
               <a class="nav-link" href="{{ route('audit23.index') }}"><i class="fas fa-history"></i> Comparisons Record</a>
             @endcan
           </li>
@@ -287,7 +287,7 @@
                                                         document.getElementById('logout-form').submit();">
                                           <i class="fas fa-power-off"></i> {{ __('Logout') }}
                                         </a>
-                                        <a class="dropdown-item" href="">
+                                        <a class="dropdown-item" href="{{ route('users.profile',Auth::user()->id) }}">
                                         <i class="fas fa-user"></i>
                                                 Mi Profile
                                         </a>

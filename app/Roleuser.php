@@ -19,4 +19,9 @@ class Roleuser extends Model
     protected $fillable = [
         'role_id','user_id','created_at','updated_at',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Roles::class, 'role_id', 'id');
+    }
 }

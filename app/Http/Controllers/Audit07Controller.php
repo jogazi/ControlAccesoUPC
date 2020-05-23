@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\audit07;
 use Illuminate\Http\Request;
+use Alert;
+use Auth;
 
 class Audit07Controller extends Controller
 {
@@ -14,9 +16,8 @@ class Audit07Controller extends Controller
      */
     public function index()
     {
-        //
-    $permission = audit07::all();
-    return view('audit07.index', ['archivos'=>$permission]);
+        $permission = audit07::paginate(4);
+        return view('audit07.index', compact('permission'));
     }
 
     /**
@@ -83,5 +84,12 @@ class Audit07Controller extends Controller
     public function destroy(audit07 $audit07)
     {
         //
+    }
+
+    function imprimir() {
+        $audit07 = audit07::all();
+
+        $pdf = \PDF::loadView('audit07.pdf', compact('audit07'));
+        return $pdf->download('Log-SYS.pdf');
     }
 }

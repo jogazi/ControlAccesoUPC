@@ -17,6 +17,6 @@ class audit09 extends Model
      * @var array
      */
     protected $fillable = [
-        'surnames','names', 'image',
+        'surname','name', 'image',
     ];
 }

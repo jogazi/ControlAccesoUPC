@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div style="text-align: center">
-                        <h1> User id {{ $use->id }}</h1>
+                        <h1> Edit profile user {{ $use->name }}</h1>
                     </div>
                 </div>
                 <div class="card-body">
@@ -16,10 +16,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    {!! Form::model($use, ['route' => ['users.update', $use->id],
-                    'method' => 'PUT']) !!}
+                    {!! Form::model($use, ['route' => ['users.update2', $use->id],
+                    'method' => 'Post']) !!}
 
-                        @include('users.partials.form')
+                        @include('users.partials.form2')
                         
                     {!! Form::close() !!}
                 </div>

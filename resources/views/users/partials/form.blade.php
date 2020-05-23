@@ -24,5 +24,5 @@
         <i class="fas fa-save"></i>
         Save
     </button>
-    <a class="btn btn-success" href="{{ route('roles.index') }}"><i class="fas fa-arrow-alt-circle-left"></i> Go back</a>
+    <a class="btn btn-success" href="{{ route('users.index') }}"><i class="fas fa-arrow-alt-circle-left"></i> Go back</a>
 </div>

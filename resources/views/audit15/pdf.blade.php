@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Users</title>
+    <title>ROOMS</title>
   </head>
   <body>
     <header class="clearfix">
@@ -11,7 +11,7 @@
       <img src="{{ asset('/public/Logo/U.png') }}" class="img-fluid" alt="Responsive image">
       </div>
       <div style="text-align: center">
-        <h1>Films Control-File Comparison</h1>
+        <h1>Films Control-Rooms</h1>
       </div>
       <div style="text-align: left" id="project">
         <div><span>PROJECT: </span> Website development</div>
@@ -27,23 +27,17 @@
       <table align="center" border=1>
         <thead >
           <tr >
-            <th > Name </th>
-            <th > Email </th>
-            <th > State </th>
+            <th> Id </th>
+            <th> Name </th>
+            <th> quality </th>
           </tr>
         </thead>
         <tbody>
-        @foreach($users as $item)
+        @foreach($roles as $item)
           <tr>
-            <td >{{ $item->name }} </td>
-            <td >{{ $item->email }}</td>
-            <td >
-              @if ($item->active==0)
-                Deactivate
-              @else
-                Actived
-              @endif
-            </td>
+            <td> {{ $item->idrooms }} </td>
+            <td> {{ $item->name }} </td>
+            <td> {{ $item->quality }} </td>
           </tr>
         @endforeach
         </tbody>

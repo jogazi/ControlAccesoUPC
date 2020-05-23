@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">lista archivosw consultados</div>
+                <div class="card-header"></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -68,7 +68,7 @@
                             </tbody>
                         </table>
                         @else
-                        <p> No se han encontrado archivos reshistrados </p>
+                        <p> No records found </p>
                         @endif
                 </div>
             </div>
